@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/radar/by_star.svg)](https://travis-ci.org/radar/by_star)
 [![Code Climate](https://codeclimate.com/github/radar/by_star.svg)](https://codeclimate.com/github/radar/by_star)
 
-ByStar (by_*) allows you easily and reliably query ActiveRecord and Mongoid objects based on time.
+ByStar (by\_\*) allows you easily and reliably query ActiveRecord and Mongoid objects based on time.
 
 ### Examples
 
@@ -44,30 +44,32 @@ class MyModel
 ByStar adds the following finder scopes (class methods) to your model to query time ranges.
 These accept a `Date`, `Time`, or `DateTime` object as an argument, which defaults to `Time.zone.now` if not specified:
 
-* `between_times(start_time, end_time)` - Finds all records occurring between the two given times.
-* `before(end_time)` - Finds all records occurring before the given time
-* `after(start_time)` - Finds all records occurring after the given time
+- `between_times(start_time, end_time)` - Finds all records occurring between the two given times.
+- `before(end_time)` - Finds all records occurring before the given time
+- `after(start_time)` - Finds all records occurring after the given time
 
 `between_times` supports alternate argument forms:
-   * `between_times(Range)`
-   * `between_times(Array)`
-   * `between_times(start_time, nil)` - same as `after(start_time)`
-   * `between_times(nil, end_time)` - same as `before(end_time)`
+
+- `between_times(Range)`
+- `between_times(Array)`
+- `between_times(start_time, nil)` - same as `after(start_time)`
+- `between_times(nil, end_time)` - same as `before(end_time)`
 
 ### Time Range Scopes
 
 ByStar adds additional shortcut scopes based on commonly used time ranges.
 See sections below for detailed argument usage of each:
 
-* `by_day`
-* `by_week` Allows zero-based week value from 0 to 52
-* `by_cweek` Allows one-based week value from 1 to 53
-* `by_weekend` Saturday and Sunday only of the given week
-* `by_fortnight` A two-week period, with the first fortnight of the year beginning on 1st January
-* `by_month`
-* `by_calendar_month` Month as it appears on a calendar; days form previous/following months which are part of the first/last weeks of the given month
-* `by_quarter` 3-month intervals of the year
-* `by_year`
+- `by_day`
+- `by_week` Allows zero-based week value from 0 to 52
+- `by_cweek` Allows one-based week value from 1 to 53
+- `by_weekend` Saturday and Sunday only of the given week
+- `by_fortnight` A two-week period, with the first fortnight of the year beginning on 1st January
+- `by_month`
+- `by_calendar_month` Month as it appears on a calendar; days form previous/following months which are part of the first/last weeks of the given month
+- `by_quarter` 3-month intervals of the year
+- `by_semester` 6-month intervals of the year
+- `by_year`
 
 ### Relative Scopes
 
@@ -75,46 +77,46 @@ ByStar also adds scopes which are relative to the current time.
 Note the `past_*` and `next_*` methods represent a time distance from current time (`Time.zone.now`),
 and do not strictly end/begin evenly on a calendar week/month/year (unlike `by_*` methods which do.)
 
-* `today` Finds all occurrences on today's date
-* `yesterday` Finds all occurrences on yesterday's date
-* `tomorrow` Finds all occurrences on tomorrow's date
-* `past_day` Prior 24-hour period from current time
-* `past_week` Prior 7-day period from current time
-* `past_fortnight` Prior 14-day period from current time
-* `past_month` Prior 30-day period from current time
-* `past_year` Prior 365-day period from current time
-* `next_day` Subsequent 24-hour period from current time
-* `next_week` Subsequent 7-day period from current time
-* `next_fortnight` Subsequent 14-day period from current time
-* `next_month` Subsequent 30-day period from current time
-* `next_year` Subsequent 365-day period from current time
+- `today` Finds all occurrences on today's date
+- `yesterday` Finds all occurrences on yesterday's date
+- `tomorrow` Finds all occurrences on tomorrow's date
+- `past_day` Prior 24-hour period from current time
+- `past_week` Prior 7-day period from current time
+- `past_fortnight` Prior 14-day period from current time
+- `past_month` Prior 30-day period from current time
+- `past_year` Prior 365-day period from current time
+- `next_day` Subsequent 24-hour period from current time
+- `next_week` Subsequent 7-day period from current time
+- `next_fortnight` Subsequent 14-day period from current time
+- `next_month` Subsequent 30-day period from current time
+- `next_year` Subsequent 365-day period from current time
 
 ### Superlative Finders
 
 Find the oldest or newest records. Returns an object instance (not a relation):
 
-* `newest`
-* `oldest`
+- `newest`
+- `oldest`
 
 ### Instance Methods
 
 In addition, ByStar adds instance methods to return the next / previous record in the timewise sequence.
 Returns an object instance (not a relation):
 
-* `object.next`
-* `object.previous`
+- `object.next`
+- `object.previous`
 
 ### Kernel Extensions
 
 ByStar extends the kernel `Date`, `Time`, and `DateTime` objects with the following instance methods,
 which mirror the ActiveSupport methods `beginning_of_day`, `end_of_week`, etc:
 
-* `beginning_of_weekend`
-* `end_of_weekend`
-* `beginning_of_fortnight`
-* `end_of_fortnight`
-* `beginning_of_calendar_month`
-* `end_of_calendar_month`
+- `beginning_of_weekend`
+- `end_of_weekend`
+- `beginning_of_fortnight`
+- `end_of_fortnight`
+- `beginning_of_calendar_month`
+- `end_of_calendar_month`
 
 Lastly, ByStar aliases Rails 3 `Date#to_time_in_current_zone` to the Rails 4 syntax `#in_time_zone`, if it has not already been defined.
 
@@ -228,14 +230,13 @@ If we use a single-sided query, the database will iterate through all items eith
 This poses a challenge for timespan-type objects which have two fields, i.e. `start_time` and `end_time`.
 There are two cases to consider:
 
-1) Timespan with `:strict` option, e.g. "start_time >= X and end_time <= Y".
+1. Timespan with `:strict` option, e.g. "start_time >= X and end_time <= Y".
 
 Given that this gem requires start_time >= end_time, we add the converse constraint "start_time <= Y and end_time >= X" to ensure both fields are double-sided, i.e. an index can be used on either field.
 
-2) Timespan without `:strict` option, e.g. "start_time < Y and end_time > X".
+2. Timespan without `:strict` option, e.g. "start_time < Y and end_time > X".
 
 This is not yet supported but will be soon.
-
 
 ### Chronic Support
 
@@ -243,7 +244,6 @@ If [Chronic](https://github.com/mojombo/chronic) gem is present, it will be used
 strings in all ByStar finder methods. Otherwise, the Ruby `Time.parse` kernel method will be used as a fallback.
 
 As of ByStar 2.2.0, you must explicitly include `gem 'chronic'` into your Gemfile in order to use Chronic.
-
 
 ## Advanced Usage
 
@@ -508,25 +508,53 @@ This will return all posts in the 4th quarter of the current year.
 This will return all posts in the 2nd quarter of 2012.
 
 ```ruby
-   Post.by_week(Time.local(2012,1,1))
+Post.by_quarter(Time.local(2012,1,1))
 ```
 
 This will return all posts from the first quarter of 2012.
 
+### by_semester
+
+Finds records by 6-month biannual period of year. Semester numbering starts at 1. The two semesters of the year begin on Jan 1 and Jul 1 respectively.
+
+To find records from the current semester:
+
+```ruby
+Post.by_semester
+```
+
+To find records based on a semester, you can pass in a number (representing the semester number) or a time object:
+
+```ruby
+Post.by_semester(1)
+```
+
+This will return all posts in the 1st semester of the current year.
+
+```ruby
+Post.by_semester(2, year: 2012)
+```
+
+This will return all posts in the 2nd semester of 2012.
+
+```ruby
+Post.by_semester(Time.local(2012,1,1))
+```
+
+This will return all posts from the first semester of 2012.
 
 ## Version Support
 
 ByStar is tested against the following versions:
 
-* Ruby 1.9.3+
-* Rails/ActiveRecord 3.0+
-* Mongoid 3.0+
+- Ruby 1.9.3+
+- Rails/ActiveRecord 3.0+
+- Mongoid 3.0+
 
 Note that ByStar automatically adds the following version compatibility shims:
 
-* ActiveSupport 3.x: `Date#to_time_in_current_zone` is aliased to `Date#in_time_zone` from version 4+
-* Mongoid 3.x: Adds support for `Criteria#reorder` method from version 4+
-
+- ActiveSupport 3.x: `Date#to_time_in_current_zone` is aliased to `Date#in_time_zone` from version 4+
+- Mongoid 3.x: Adds support for `Criteria#reorder` method from version 4+
 
 ## Testing
 
@@ -559,19 +587,18 @@ ByStar tests use TimeCop to lock the system `Time.now` at Jan 01, 2014, and seed
 objects with fixed dates according to `spec/fixtures/shared/seeds.rb`.
 Note that the timezone is randomized on each run to shake-out timezone related quirks.
 
-
 ## Collaborators
 
 ByStar is actively maintained by Ryan Bigg (radar) and Johnny Shields (johnnyshields)
 
 Thank you to the following people:
 
-* Thomas Sinclair for the original bump for implementing ByStar
-* [Ruby on Rails](http://rubyonrails.org/) for their support
-* Mislav Marohnic
-* August Lilleas (leethal)
-* gte351s
-* Sam Elliott (lenary)
-* The creators of the [Chronic](https://github.com/mojombo/chronic) gem
-* Erik Fonselius
-* Johnny Shields (johnnyshields)
+- Thomas Sinclair for the original bump for implementing ByStar
+- [Ruby on Rails](http://rubyonrails.org/) for their support
+- Mislav Marohnic
+- August Lilleas (leethal)
+- gte351s
+- Sam Elliott (lenary)
+- The creators of the [Chronic](https://github.com/mojombo/chronic) gem
+- Erik Fonselius
+- Johnny Shields (johnnyshields)
